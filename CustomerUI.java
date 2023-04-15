@@ -20,18 +20,19 @@ public class CustomerUI extends JFrame {
         setSize(800, 600);
         setLocationRelativeTo(null);
 
+        // Create the purchase button
+        purchaseButton = new JButton("Purchase");
+//        purchaseButton.setEnabled(false);
+
         // Create the product table
         productTable = new JTable();
         refreshTable();
 
-        // Set the table cell renderer for the price column
+        // Set the table cell renderer for the stock column
         DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
         rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
-        productTable.getColumnModel().getColumn(4).setCellRenderer(rightRenderer);
+        productTable.getColumnModel().getColumn(5).setCellRenderer(rightRenderer);
 
-        // Create the purchase button
-        purchaseButton = new JButton("Purchase");
-        purchaseButton.setEnabled(false);
 
         // Add an action listener to the purchase button
         purchaseButton.addActionListener(new ActionListener() {
@@ -92,15 +93,13 @@ public class CustomerUI extends JFrame {
     /**
      * Refreshes the product table with the latest data from the inventory.
      */
-    private void refreshTable() {
+    public void refreshTable() {
         List<Product> products = inventory.getAllProducts();
         ProductTableModel model = new ProductTableModel(products);
         productTable.setModel(model);
 
-        // Disable the purchase button if no row is selected
-        if (productTable.getSelectedRow() == -1) {
-            purchaseButton.setEnabled(false);
-        } else {
+        // Set the row to visible if the row is selected
+        if (productTable.getSelectedRow() != -1) {
             purchaseButton.setEnabled(true);
         }
     }
